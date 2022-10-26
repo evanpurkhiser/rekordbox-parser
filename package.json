@@ -27,8 +27,11 @@
     "kaitai-struct": "^0.10.0"
   },
   "devDependencies": {
+    "@evanpurkhiser/eslint-config": "^0.13.0",
     "@octokit/types": "^8.0.0",
     "@types/node": "^18.11.5",
+    "@types/prettier": "^2.7.1",
+    "eslint": "^8.26.0",
     "kaitai-struct-compiler": "^0.10.0",
     "node-fetch": "^3.2.10",
     "prettier": "^2.7.1",
@@ -37,7 +40,8 @@
     "yaml": "^2.1.3"
   },
   "scripts": {
-    "build": "ts-node-esm build.mts"
+    "build": "ts-node-esm build.mts",
+    "lint": "eslint *.mts"
   },
   "volta": {
     "node": "18.11.0",
