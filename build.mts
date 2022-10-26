@@ -7,6 +7,8 @@ import {parse} from 'yaml';
 import {promises as fs} from 'fs';
 import * as path from 'path';
 
+import prettierConfig from './prettier.config.js';
+
 /**
  * Location where the compiled KSY files are saved
  */
@@ -56,39 +58,56 @@ async function compileKaitaiFile(ksy: string) {
  * Fetches, compiles, and saves a kaitai file into OUTPUT_DIR
  */
 async function buildFile(version: string, name: string) {
-  console.log(` -> Building ${name}@${version}`);
+  process.stderr.write(` -> Building ${name}@${version}\n`);
 
   const kaitaiFile = await fetchKaitaiFile(version, name);
   const [fileName, content] = await compileKaitaiFile(kaitaiFile);
 
   // Format with prettier
-  const javascript = format(content, {parser: 'babel'});
+  const javascript = format(content, {...prettierConfig, parser: 'babel'});
 
   await fs.writeFile(path.join(OUTPUT_DIR, fileName), javascript);
 }
 
 async function updatePackageVerison(version: string) {
-  const packageJson = JSON.parse(await fs.readFile('./pacakge.json', {encoding: 'utf8'}));
+  const packageJson = JSON.parse(await fs.readFile('./package.json', {encoding: 'utf8'}));
+
+  const hasNewVersion = version !== packageJson.version;
+
+  if (hasNewVersion) {
+    const versionChange = `${packageJson.version} -> ${version}`;
+    process.stderr.write(` -> Version updated from crate-dinner: ${versionChange}\n`);
+  }
 
   // Update version
   packageJson.version = version;
 
   // Write back to pacakge.json
-  await fs.writeFile('./package.json', format('./package.json', {parser: 'json'}));
+  await fs.writeFile(
+    './package.json',
+    format(JSON.stringify(packageJson, null, 2), {...prettierConfig, parser: 'json'})
+  );
 }
 
 // Fetch the latest version
+process.stderr.write(`==> Fetching version of crate-digger\n`);
 const version = await latestVersion();
-console.log(`==> Building kaitai files from crate-digger ${version.tag_name}`);
 
 // Ensure the build directory exists
 fs.mkdir(OUTPUT_DIR, {recursive: true});
 
+process.stderr.write(`==> Building from crate-digger ${version.tag_name}\n`);
 await Promise.all([
   buildFile(version.tag_name, 'rekordbox_anlz'),
   buildFile(version.tag_name, 'rekordbox_pdb'),
 ]);
 
-console.log(`==> Updating version in package.json`);
+process.stderr.write(`==> Updating version in package.json\n`);
+const versionUpdated = await updatePackageVerison(version.name);
 
-await updatePackageVerison(version.name);
+const update = {
+  versionUpdated,
+  version: version.name,
+};
+
+process.stdout.write(JSON.stringify(update));

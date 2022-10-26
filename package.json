@@ -14,12 +14,7 @@
   ],
   "main": "lib/index.js",
   "sideEffects": false,
-  "files": [
-    "lib/*",
-    "LICENSE",
-    "README.md",
-    "package.json"
-  ],
+  "files": ["lib/*", "LICENSE", "README.md", "package.json"],
   "engines": {
     "node": ">=16.0.0"
   },
