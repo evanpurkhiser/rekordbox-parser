@@ -35,8 +35,8 @@
     "yaml": "^2.1.3"
   },
   "scripts": {
-    "build": "ts-node-esm build.mts",
-    "lint": "eslint *.mts"
+    "build": "ts-node-esm src/build.mts",
+    "lint": "eslint src/* lib/index.js"
   },
   "volta": {
     "node": "18.11.0",

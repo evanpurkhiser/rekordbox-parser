@@ -7,7 +7,7 @@ import {parse} from 'yaml';
 import {promises as fs} from 'fs';
 import * as path from 'path';
 
-import prettierConfig from './prettier.config.js';
+import prettierConfig from '../prettier.config.js';
 
 /**
  * Location where the compiled KSY files are saved
