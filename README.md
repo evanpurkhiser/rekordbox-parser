@@ -20,6 +20,7 @@ Parsing `PDB` files
 
 ```ts
 import {parsePdb, RekordboxPdb, tableRows} from 'rekordbox-parser';
+import fs from 'fs';
 
 const {PageType} = RekordboxPdb;
 
@@ -27,10 +28,10 @@ const {PageType} = RekordboxPdb;
 const pdbFile = await fs.promises.readFile('./export.pdb');
 const db = parsePdb(pdbFile);
 
-const trackTable = db.tables.find(table => table.type === PageType.TRACKS);
+const tracksTable = db.tables.find(table => table.type === PageType.TRACKS);
 
 // Iterate tables using the `tableRows` generator helper
-for (const row in tableRows(tracksTable)) {
+for (const row of tableRows(tracksTable)) {
   console.log('==> Track ID', row.id);
   console.log(' -> ', row.title.body.text);
   console.log(' -> ', row.trackNumber);
@@ -73,6 +74,7 @@ Parsing `ANLZ` files
 
 ```ts
 import {parseAnlz, RekordboxAnlz} from 'rekordbox-parser';
+import fs from 'fs';
 
 const {SectionTags} = RekordboxAnlz;
 
@@ -80,12 +82,12 @@ const {SectionTags} = RekordboxAnlz;
 const anlzFile = await fs.promises.readFile('./ANLZ0000.DAT');
 const anlz = parseAnlz(anlzFile);
 
-const beatGrid = db.sections.find(section => section.fourcc === SectionTags.BEAT_GRID);
+const beatGrid = anlz.sections.find(section => section.fourcc === SectionTags.BEAT_GRID);
 
 console.log('==> Beat Grid');
 console.log(beatGrid.body.beats);
 
-const cues = db.sections.find(section => section.fourcc === SectionTags.CUES);
+const cues = anlz.sections.find(section => section.fourcc === SectionTags.CUES);
 
 console.log('==> Cues');
 console.log(cues.body.cues);
