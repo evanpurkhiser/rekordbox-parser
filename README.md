@@ -95,7 +95,7 @@ console.log(cues.body.cues);
 
 ### Limitations
 
-- The DeviceSQL fiel format that Pioneer uses is still not fully
+- The DeviceSQL file format that Pioneer uses is still not fully
   understood. Some data may be missing.
 
 - The Typescript types are completely lacking for the result. When Katai
