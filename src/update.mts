@@ -6,6 +6,7 @@ import {parse} from 'yaml';
 
 import {promises as fs} from 'fs';
 import * as path from 'path';
+import {exit} from 'process';
 
 import prettierConfig from '../prettier.config.js';
 
@@ -18,6 +19,13 @@ const OUTPUT_DIR = './lib';
  * Name of the crate-digger repo
  */
 const REPO = 'deep-symmetry/crate-digger';
+
+/**
+ * Regex used to match / replace the version of crate-digger in the README.md
+ */
+const VERSION_REGEX = new RegExp(
+  /(?<=^\*\*Current `crate-digger` version:\*\* v)(?<version>[0-9.]+)$/m
+);
 
 /**
  * Gets the latest version object from github for crate-digger
@@ -48,7 +56,8 @@ async function compileKaitaiFile(ksy: string) {
   const files = Object.entries(result);
 
   if (files.length !== 1) {
-    console.error(`Unexpected multiple files compiled`);
+    process.stderr.write(' !! Unexpected multiple files compiled\n');
+    exit(1);
   }
 
   return files[0] as [filename: string, content: string];
@@ -69,24 +78,32 @@ async function buildFile(version: string, name: string) {
   await fs.writeFile(path.join(OUTPUT_DIR, fileName), javascript);
 }
 
-async function updatePackageVerison(version: string) {
-  const packageJson = JSON.parse(await fs.readFile('./package.json', {encoding: 'utf8'}));
+async function updateReadmeNote(version: string) {
+  const readmeContent = await fs.readFile('./README.md', {encoding: 'utf8'});
 
-  const hasNewVersion = version !== packageJson.version;
+  const lastVersionMatch = readmeContent.match(VERSION_REGEX);
 
-  if (hasNewVersion) {
-    const versionChange = `${packageJson.version} -> ${version}`;
-    process.stderr.write(` -> Version updated from crate-dinner: ${versionChange}\n`);
+  if (lastVersionMatch === null) {
+    process.stderr.write(' !! Failed to update crate-digger version in readme\n');
+    return false;
   }
 
-  // Update version
-  packageJson.version = version;
+  const lastVersion = lastVersionMatch.groups.version;
+  const hasNewVersion = version !== lastVersion;
+
+  if (hasNewVersion) {
+    const versionChange = `${lastVersion} -> ${version}`;
+    process.stderr.write(` -> Version updated from crate-digger: ${versionChange}\n`);
+  } else {
+    process.stderr.write(` -> Version not changed\n`);
+  }
+
+  const newReadme = readmeContent.replace(VERSION_REGEX, version);
 
   // Write back to pacakge.json
-  await fs.writeFile(
-    './package.json',
-    format(JSON.stringify(packageJson, null, 2), {...prettierConfig, parser: 'json'})
-  );
+  await fs.writeFile('./README.md', newReadme);
+
+  return hasNewVersion;
 }
 
 // Fetch the latest version
@@ -102,8 +119,8 @@ await Promise.all([
   buildFile(version.tag_name, 'rekordbox_pdb'),
 ]);
 
-process.stderr.write(`==> Updating version in package.json\n`);
-const versionUpdated = await updatePackageVerison(version.name);
+process.stderr.write(`==> Updating version in README.md\n`);
+const versionUpdated = await updateReadmeNote(version.name);
 
 const update = {
   versionUpdated,
