@@ -1,7 +1,7 @@
 ## `rekordbox-parser`
 
 [![Build Status](https://github.com/evanpurkhiser/rekordbox-parser/workflows/build/badge.svg)](https://github.com/evanpurkhiser/rekordbox-parser/actions?query=workflow%3Abuild)
-[![NPM Package](https://img.shields.io/npm/v/rekordbox-parser)](https://www.npmjs.com/package/rekordbox-parser)
+[![NPM](https://img.shields.io/npm/v/rekordbox-parser)](https://www.npmjs.com/package/rekordbox-parser)
 
 This is a JavaScript / Typescript library that provides a simple API for
 parsing **Pioneer Rekordbox PDB and ANLZ files**. This library is a wrapper
