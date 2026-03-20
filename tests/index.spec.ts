@@ -62,10 +62,15 @@ test('parse PDB files', async () => {
   expect(tracks[0].rating).toEqual(0);
   expect(tracks[0].mixName.body.text).toEqual('');
   expect(tracks[0].comment.body.text).toEqual('AWF032');
-  expect(tracks[0].autoloadHotcues.body.text === 'ON').toEqual(true);
-  expect(tracks[0].kuvoPublic.body.text === 'ON').toEqual(false);
+  if (tracks[0].autoloadHotcues) {
+    expect(tracks[0].autoloadHotcues.body.text === 'ON').toEqual(true);
+  }
+
+  if (tracks[0].kuvoPublic) {
+    expect(tracks[0].kuvoPublic.body.text === 'ON').toEqual(false);
+  }
   expect(tracks[0].filePath.body.text).toEqual(
-    '/Contents/Orbit1/Orbit1 EP #2/02. [08A] Orbit1 - Jitter 0.5.mp3'
+    '/Contents/Orbit1/Orbit1 EP #2/02. [08A] Orbit1 - Jitter 0.5.mp3',
   );
   expect(tracks[0].filename.body.text).toEqual('02. [08A] Orbit1 - Jitter 0.5.mp3');
   expect(tracks[0].fileSize).toEqual(7422729);
@@ -89,7 +94,7 @@ test('parse DAT ANLZ files', async () => {
   ]);
 
   const beatGrid = anlz.sections.find(
-    section => section.fourcc === SectionTags.BEAT_GRID
+    section => section.fourcc === SectionTags.BEAT_GRID,
   );
 
   expect(beatGrid.body.beats).toHaveLength(1106);

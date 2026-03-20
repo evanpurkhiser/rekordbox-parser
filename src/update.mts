@@ -1,14 +1,15 @@
-import {Endpoints} from '@octokit/types';
+import type {Endpoints} from '@octokit/types';
 import KaitaiStructCompiler from 'kaitai-struct-compiler';
 import fetch from 'node-fetch';
-import {format} from 'prettier';
 import {parse} from 'yaml';
 
+import {execFile} from 'child_process';
 import {promises as fs} from 'fs';
 import * as path from 'path';
 import {exit} from 'process';
+import {promisify} from 'util';
 
-import prettierConfig from '../prettier.config.js';
+const execFileAsync = promisify(execFile);
 
 /**
  * Location where the compiled KSY files are saved
@@ -24,7 +25,7 @@ const REPO = 'deep-symmetry/crate-digger';
  * Regex used to match / replace the version of crate-digger in the README.md
  */
 const VERSION_REGEX = new RegExp(
-  /(?<=^\*\*Current `crate-digger` version:\*\* v)(?<version>[0-9.]+)$/m
+  /(?<=^\*\*Current `crate-digger` version:\*\* v)(?<version>[0-9.]+)$/m,
 );
 
 /**
@@ -72,10 +73,11 @@ async function buildFile(version: string, name: string) {
   const kaitaiFile = await fetchKaitaiFile(version, name);
   const [fileName, content] = await compileKaitaiFile(kaitaiFile);
 
-  // Format with prettier
-  const javascript = format(content, {...prettierConfig, parser: 'babel'});
+  const outputFilePath = path.join(OUTPUT_DIR, fileName);
+  await fs.writeFile(outputFilePath, content);
 
-  await fs.writeFile(path.join(OUTPUT_DIR, fileName), javascript);
+  // Format with oxfmt
+  await execFileAsync('oxfmt', [outputFilePath]);
 }
 
 async function updateReadmeNote(version: string) {

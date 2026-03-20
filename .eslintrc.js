@@ -3,4 +3,7 @@ module.exports = {
     node: true,
   },
   extends: ['@evanpurkhiser/eslint-config/common'],
+  rules: {
+    'prettier/prettier': 'off',
+  },
 };
