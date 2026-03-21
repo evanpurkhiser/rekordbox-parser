@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* oxlint-disable @typescript-eslint/ban-ts-comment */
 
 import {KaitaiStream} from 'kaitai-struct';
 
