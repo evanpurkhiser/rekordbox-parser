@@ -1,14 +1,8 @@
-/* oxlint-disable @typescript-eslint/ban-ts-comment */
-
 import {KaitaiStream} from 'kaitai-struct';
 
-// eslint-ingore @typescript-eslint/ban-ts-comment
 // NOTE: These files are built using `yarn build-parsers`. The update script
 // will fetch the kaitai ksy files from crate-digger
-//
-// @ts-expect-error
 import RekordboxAnlz from './RekordboxAnlz.js';
-// @ts-expect-error
 import RekordboxPdb from './RekordboxPdb.js';
 
 /**

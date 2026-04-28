@@ -20,7 +20,7 @@
   "sideEffects": false,
   "main": "lib/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp src/RekordboxAnlz.js src/RekordboxPdb.js lib/",
     "build-parsers": "ts-node-esm --project tsconfig.update.json src/update.mts",
     "format": "oxfmt .",
     "format:check": "oxfmt --check .",

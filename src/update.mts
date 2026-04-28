@@ -14,7 +14,7 @@ const execFileAsync = promisify(execFile);
 /**
  * Location where the compiled KSY files are saved
  */
-const OUTPUT_DIR = './lib';
+const OUTPUT_DIR = './src';
 
 /**
  * Name of the crate-digger repo
@@ -100,7 +100,7 @@ async function updateReadmeNote(version: string) {
     process.stderr.write(` -> Version not changed\n`);
   }
 
-  const newReadme = readmeContent.replace(VERSION_REGEX, version);
+  const newReadme = readmeContent.replace(VERSION_REGEX, version.replace(/^v/, ''));
 
   // Write back to pacakge.json
   await fs.writeFile('./README.md', newReadme);

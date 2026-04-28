@@ -3,7 +3,7 @@ import {expect, test} from '@jest/globals';
 import {promises as fs} from 'fs';
 import {join} from 'path';
 
-import {parseAnlz, parsePdb, RekordboxAnlz, RekordboxPdb, tableRows} from '../lib/index';
+import {parseAnlz, parsePdb, RekordboxAnlz, RekordboxPdb, tableRows} from '../src/index';
 
 function openTestFile(file: string) {
   return fs.readFile(join(__dirname, file));
