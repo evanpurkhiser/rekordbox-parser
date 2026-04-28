@@ -12,7 +12,7 @@ describes the database format.
 Thank you [**@brunchboy**](https://github.com/brunchboy) for making these
 files available!
 
-**Current `crate-digger` version:** v0.1.6
+**Current `crate-digger` version:** v0.2.1
 
 ### Library usage
 
