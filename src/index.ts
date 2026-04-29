@@ -40,8 +40,7 @@ function* tableRows(table: any) {
     }
 
     const rows = page.rowGroups
-      .map((group: any) => group.rows)
-      .flat()
+      .flatMap((group: any) => group.rows)
       .filter((row: any) => row.present);
 
     for (const row of rows) {

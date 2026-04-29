@@ -3,11 +3,11 @@ import KaitaiStructCompiler from 'kaitai-struct-compiler';
 import fetch from 'node-fetch';
 import {parse} from 'yaml';
 
-import {execFile} from 'child_process';
-import {promises as fs} from 'fs';
-import * as path from 'path';
-import {exit} from 'process';
-import {promisify} from 'util';
+import {execFile} from 'node:child_process';
+import {promises as fs} from 'node:fs';
+import * as path from 'node:path';
+import {exit} from 'node:process';
+import {promisify} from 'node:util';
 
 const execFileAsync = promisify(execFile);
 
