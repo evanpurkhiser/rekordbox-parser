@@ -19,7 +19,16 @@
   ],
   "sideEffects": false,
   "main": "lib/index.js",
-  "packageManager": "pnpm@10.15.1",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^24.15.0"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.0.0"
+    }
+  },
   "scripts": {
     "build": "tsc && cp src/RekordboxAnlz.js src/RekordboxPdb.js lib/",
     "build-parsers": "ts-node-esm --project tsconfig.update.json src/update.mts",
@@ -48,8 +57,5 @@
   },
   "engines": {
     "node": ">=24.0.0"
-  },
-  "volta": {
-    "node": "24.3.0"
   }
 }
