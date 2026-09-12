@@ -10,7 +10,7 @@
     "rekordbox"
   ],
   "license": "LGPL-3.0-or-later",
-  "author": "Evan Purkhiser <evanpurkhiser@gmail.com>",
+  "author": "Evan Purkhiser <rekordbox-parser.js@evanpurkhiser.com>",
   "files": [
     "lib/*",
     "LICENSE",
