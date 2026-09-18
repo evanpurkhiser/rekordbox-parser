@@ -212,8 +212,8 @@ importers:
         version: 0.10.0
     devDependencies:
       '@evanpurkhiser/oxc-config':
-        specifier: ^0.8.0
-        version: 0.8.0(oxlint@1.62.0)
+        specifier: ^0.16.0
+        version: 0.16.0(oxlint@1.62.0)
       '@jest/globals':
         specifier: ^29.2.2
         version: 29.2.2
@@ -428,8 +428,8 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@evanpurkhiser/oxc-config@0.8.0':
-    resolution: {integrity: sha512-hk2a8Jk30Gn8WxOKqiaIKxmxloQeTtVv30doXpTrS9gXV9ive6sLJc1XGvaR56cSpEK2zjWBMZnktLS31a/c2w==}
+  '@evanpurkhiser/oxc-config@0.16.0':
+    resolution: {integrity: sha512-FGJRko0Y/XvXrhSQLwRB3Cfd7tz6niEosLWUECtRtzCKojvRd9o4CprXfultUPab0/9PzKX2gEf+3X/IMZieTQ==}
     peerDependencies:
       oxlint: '>=1.56.0'
 
@@ -1955,7 +1955,7 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@evanpurkhiser/oxc-config@0.8.0(oxlint@1.62.0)':
+  '@evanpurkhiser/oxc-config@0.16.0(oxlint@1.62.0)':
     dependencies:
       oxlint: 1.62.0
 
